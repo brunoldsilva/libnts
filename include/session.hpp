@@ -8,6 +8,9 @@
 namespace nts {
 namespace ss {
 
+/// Maximum transmission unit size.
+constexpr uint16_t MTU_SIZE{ 1500 };
+
 /// Send and receive data from the network.
 class Session
 {

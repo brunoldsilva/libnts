@@ -9,9 +9,6 @@
 namespace nts {
 namespace ss {
 
-/// Maximum transmission unit size.
-constexpr uint16_t MTU_SIZE{ 1500 };
-
 RawSession::RawSession()
     : socket(ioContext, raw_protocol_t(PF_PACKET, SOCK_RAW))
 {

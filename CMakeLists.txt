@@ -18,7 +18,7 @@ enable_testing()
 add_library(nts STATIC)
 add_subdirectory(source)
 add_subdirectory(include)
-# add_subdirectory(tests)
+add_subdirectory(tests)
 
 # Automatically fetch googletest.
 FetchContent_Declare(
