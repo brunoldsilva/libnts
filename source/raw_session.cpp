@@ -1,8 +1,8 @@
 /// Copyright Bruno Silva, 2022. All rights reserved.
 
-#include <netpacket/packet.h>
-#include <net/ethernet.h>
 #include <iostream>
+#include <net/ethernet.h>
+#include <netpacket/packet.h>
 
 #include "raw_session.hpp"
 
@@ -31,10 +31,39 @@ std::size_t RawSession::send(std::vector<uint8_t>& inData)
     return bytes;
 }
 
+std::size_t RawSession::send(srl::Serializable& inData)
+{
+    // The buffer will hold the data to send.
+    boost::asio::streambuf buffer;
+    std::ostream os(&buffer);
+
+    // Add the contents of the message to the buffer.
+    inData.toStream(os);
+
+    // Send the data through the socket.
+    const std::size_t bytes = socket.send(buffer.data());
+    return bytes;
+}
+
 std::size_t RawSession::receive(std::vector<uint8_t>& outData)
 {
     // Read data from the socket.
     const std::size_t bytes = socket.receive(boost::asio::buffer(outData));
+    return bytes;
+}
+
+std::size_t RawSession::receive(srl::Serializable& outData)
+{
+    // The buffer will hold the data.
+    boost::asio::streambuf buffer;
+
+    // Read data from the socket into the buffer.
+    const std::size_t bytes = socket.receive(buffer.prepare(MTU_SIZE));
+
+    // Get the message from the buffer.
+    std::istream is(&buffer);
+    outData.fromStream(is);
+
     return bytes;
 }
 

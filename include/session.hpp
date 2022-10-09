@@ -5,6 +5,8 @@
 #include <memory>
 #include <vector>
 
+#include <serializable.hpp>
+
 namespace nts {
 namespace ss {
 
@@ -27,9 +29,15 @@ public:
     /// Send data to the network.
     virtual std::size_t send(std::vector<uint8_t>& inData) = 0;
 
+    /// Send object to the network.
+    virtual std::size_t send(srl::Serializable& inData) = 0;
+
     /// Receive data from the network.
     /// @param outData Must be non-empty (size > 0).
     virtual std::size_t receive(std::vector<uint8_t>& outData) = 0;
+
+    /// Receive object from the network.
+    virtual std::size_t receive(srl::Serializable& outData) = 0;
 };
 
 } // namespace ss
