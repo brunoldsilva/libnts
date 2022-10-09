@@ -4,6 +4,7 @@
 set(SOURCES
     raw_session.cpp
     raw_session.hpp
+    serializable.cpp
     session.cpp)
 
 # Add sources to the Network Testing Suite library.
