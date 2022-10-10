@@ -2,6 +2,7 @@
 
 # Get all source files in the current directory.
 set(SOURCES
+    data_unit.cpp
     raw_session.cpp
     raw_session.hpp
     serializable.cpp

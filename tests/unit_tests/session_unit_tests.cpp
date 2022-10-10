@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 
 #include <session.hpp>
+#include <data_unit.hpp>
 
 namespace nts {
 namespace tests {
@@ -48,6 +49,48 @@ TEST(DISABLED_SessionUnitTests, ReceiveVector)
     std::size_t receiveSize = session->receive(reply);
     std::cout << "Bytes received: " << receiveSize << std::endl;
     ASSERT_EQ(receiveSize, pingRequest.size());
+}
+
+TEST(SessionUnitTests, SendSerializable)
+{
+    // Create a session to send ping request.
+    std::shared_ptr<ss::Session> session = ss::Session::create();
+    ASSERT_TRUE(session);
+
+    // Create a serializable object to hold the request.
+    GenericDataUnit pingRequestUnit;
+    pingRequestUnit.setData(pingRequest);
+
+    // Send the request.
+    const std::size_t sendSize = session->send(pingRequestUnit);
+    std::cout << "Bytes sent: " << sendSize << std::endl;
+    ASSERT_EQ(sendSize, pingRequestUnit.getData().size());
+}
+
+TEST(DISABLED_SessionUnitTests, ReceiveSerializable)
+{
+    // Create a session to send ping request.
+    std::shared_ptr<ss::Session> session = ss::Session::create();
+    ASSERT_TRUE(session);
+
+    // Create a serializable object to hold the request.
+    GenericDataUnit pingRequestUnit;
+    pingRequestUnit.setData(pingRequest);
+
+    // Send the request.
+    const std::size_t sendSize = session->send(pingRequestUnit);
+    std::cout << "Bytes sent: " << sendSize << std::endl;
+    ASSERT_EQ(sendSize, pingRequestUnit.getData().size());
+
+    // Create a serializable object to hold the reply.
+    GenericDataUnit pingReplyUnit;
+
+    // Receive the reply.
+    std::size_t receiveSize = session->receive(pingReplyUnit);
+    std::cout << "Bytes received: " << receiveSize << std::endl;
+    ASSERT_EQ(receiveSize, pingReplyUnit.getData().size());
+
+    // @todo Compare the received data with the expected reply to the ping request.
 }
 
 } // namespace tests
