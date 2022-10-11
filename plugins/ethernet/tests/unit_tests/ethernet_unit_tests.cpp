@@ -12,7 +12,7 @@ namespace tests {
 
 const std::string emptyAddress{ "0:0:0:0:0:0" };
 const std::string destinationAddress{ "0:15:5d:f6:7c:15" };
-const std::string sourceAddress{ "0:15:5d:3a:eb:87" };
+const std::string sourceAddress{ "0:15:5d:3a:ea:bd" };
 const uint16_t etherType{ (uint16_t)EtherType::IPv4 };
 const uint16_t length{ 0xbeef };
 
@@ -23,6 +23,10 @@ TEST(EthernetUnitTests, Accessors)
     EXPECT_EQ(frame.getSourceAddress(), emptyAddress);
     EXPECT_EQ(frame.getEtherType(), 0);
     EXPECT_EQ(frame.getLength(), 0);
+
+    std::vector<VlanTag> tags;
+    frame.getVlanTags(tags);
+    EXPECT_EQ(tags.size(), 0);
 
     frame.setDestinationAddress(destinationAddress);
     EXPECT_EQ(frame.getDestinationAddress(), destinationAddress);
@@ -35,15 +39,34 @@ TEST(EthernetUnitTests, Accessors)
 
     frame.setLength(length);
     EXPECT_EQ(frame.getLength(), length);
+
+    VlanTag tagA = VlanTag().setVID(0xfff);
+    VlanTag tagB = VlanTag().setVID(0x111);
+    frame.addVlanTag(tagA);
+    frame.addVlanTag(tagB);
+
+    frame.getVlanTags(tags);
+    EXPECT_EQ(tags.size(), 2);
+    EXPECT_EQ(tagA.getVID(), tags[0].getVID());
+
+    frame.removeVlanTag(0xfff);
+
+    frame.getVlanTags(tags);
+    EXPECT_EQ(tags.size(), 1);
+
+    frame.clearVlanTags();
+
+    frame.getVlanTags(tags);
+    EXPECT_EQ(tags.size(), 0);
 }
 
 TEST(EthernetUnitTests, Serialization)
 {
+    // Create a VLAN tag.
+    VlanTag tag = VlanTag().setVID(0xfff);
+
     // Create a frame.
-    EthernetDataUnit frameA;
-    frameA.setDestinationAddress(destinationAddress);
-    frameA.setSourceAddress(sourceAddress);
-    frameA.setEtherType(etherType);
+    EthernetDataUnit frameA = EthernetDataUnit().setDestinationAddress(destinationAddress).setSourceAddress(sourceAddress).addVlanTag(tag).setEtherType(etherType);
 
     // Serialize the frame.
     boost::asio::streambuf buffer;
@@ -59,6 +82,12 @@ TEST(EthernetUnitTests, Serialization)
     EXPECT_EQ(frameA.getDestinationAddress(), frameB.getDestinationAddress());
     EXPECT_EQ(frameA.getSourceAddress(), frameB.getSourceAddress());
     EXPECT_EQ(frameA.getEtherType(), frameB.getEtherType());
+
+    // And their tags.
+    std::vector<VlanTag> tags;
+    frameB.getVlanTags(tags);
+    ASSERT_GT(tags.size(), 0);
+    EXPECT_EQ(tags[0].getVID(), tag.getVID());
 }
 
 TEST(EthernetUnitTests, Session)
@@ -67,11 +96,11 @@ TEST(EthernetUnitTests, Session)
     std::shared_ptr<nts::ss::Session> session = nts::ss::Session::create();
     ASSERT_TRUE(session);
 
+    // Create a tag.
+    VlanTag tag = VlanTag().setVID(0);
+
     // Create an empty Ethernet frame.
-    EthernetDataUnit frame;
-    frame.setDestinationAddress(destinationAddress);
-    frame.setSourceAddress(sourceAddress);
-    frame.setEtherType(etherType);
+    EthernetDataUnit frame = EthernetDataUnit().setDestinationAddress(destinationAddress).setSourceAddress(sourceAddress).addVlanTag(tag).setEtherType(etherType);
 
     // Send the frame.
     const std::size_t sendSize = session->send(frame);
@@ -105,10 +134,7 @@ TEST(VlanTagUnitTests, Serialization)
 {
     // Create a tag.
     VlanTag tagA;
-    tagA.setProtocolIdentifier((uint16_t)EtherType::IPv4);
-    tagA.setPCP(2);
-    tagA.setDEI(1);
-    tagA.setVID(3);
+    tagA.setProtocolIdentifier((uint16_t)EtherType::IPv4).setPCP(2).setDEI(1).setVID(3);
 
     // Serialize the tag.
     boost::asio::streambuf buffer;
@@ -118,7 +144,7 @@ TEST(VlanTagUnitTests, Serialization)
     std::istream is(&buffer);
     VlanTag tagB;
 
-    // Tags assume that the protocol identifier is already removed before deserializing.
+    // Tags assume that the protocol identifier has already been removed before deserializing.
     boost::endian::big_int16_t protocolIdentifier{ 0 };
     is.read(reinterpret_cast<char*>(&protocolIdentifier), 2);
 

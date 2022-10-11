@@ -95,6 +95,9 @@ public:
     /// Source MAC address.
     std::string getSourceAddress() const;
 
+    /// Virtual LAN tags.
+    void getVlanTags(std::vector<VlanTag>& outTags) const;
+
     /// Protocol of the payload.
     uint16_t getEtherType() const;
 
@@ -107,6 +110,15 @@ public:
     /// Source MAC address.
     EthernetDataUnit& setSourceAddress(const std::string address);
 
+    /// Virtual LAN tags.
+    EthernetDataUnit& addVlanTag(const VlanTag& tag);
+
+    /// Virtual LAN tags.
+    EthernetDataUnit& removeVlanTag(const uint16_t id);
+
+    /// Virtual LAN tags.
+    EthernetDataUnit& clearVlanTags();
+
     /// Protocol of the payload.
     EthernetDataUnit& setEtherType(const uint16_t type);
 
@@ -117,6 +129,8 @@ private:
     std::vector<boost::endian::big_uint8_t> destinationAddress{ 6, 0 };
 
     std::vector<boost::endian::big_uint8_t> sourceAddress{ 6, 0 };
+
+    std::vector<VlanTag> vlanTags;
 
     boost::endian::big_uint16_t etherTypeOrLength{ 0 };
 };

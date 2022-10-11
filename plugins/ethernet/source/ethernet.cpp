@@ -2,6 +2,7 @@
 
 #include <ethernet.hpp>
 
+#include <algorithm>
 #include <netinet/ether.h>
 
 namespace eth {
@@ -82,6 +83,10 @@ void EthernetDataUnit::toStream(std::ostream& outStream) const
 {
     outStream.write(reinterpret_cast<const char*>(&destinationAddress[0]), 6);
     outStream.write(reinterpret_cast<const char*>(&sourceAddress[0]), 6);
+    for (const VlanTag& tag : vlanTags)
+    {
+        tag.toStream(outStream);
+    }
     outStream.write(reinterpret_cast<const char*>(&etherTypeOrLength), 2);
 }
 
@@ -90,6 +95,13 @@ void EthernetDataUnit::fromStream(std::istream& inStream)
     inStream.read(reinterpret_cast<char*>(&destinationAddress[0]), 6);
     inStream.read(reinterpret_cast<char*>(&sourceAddress[0]), 6);
     inStream.read(reinterpret_cast<char*>(&etherTypeOrLength), 2);
+    while (getEtherType() == (uint16_t)EtherType::VLAN)
+    {
+        VlanTag tag;
+        tag.fromStream(inStream);
+        addVlanTag(tag);
+        inStream.read(reinterpret_cast<char*>(&etherTypeOrLength), 2);
+    }
 }
 
 std::string EthernetDataUnit::getDestinationAddress() const
@@ -100,6 +112,11 @@ std::string EthernetDataUnit::getDestinationAddress() const
 std::string EthernetDataUnit::getSourceAddress() const
 {
     return ether_ntoa(reinterpret_cast<const ether_addr*>(&sourceAddress[0]));
+}
+
+void EthernetDataUnit::getVlanTags(std::vector<VlanTag>& outTags) const
+{
+    outTags = vlanTags;
 }
 
 uint16_t EthernetDataUnit::getEtherType() const
@@ -129,6 +146,29 @@ EthernetDataUnit& EthernetDataUnit::setSourceAddress(const std::string address)
     {
         sourceAddress[i] = addr.ether_addr_octet[i];
     }
+    return *this;
+}
+
+EthernetDataUnit& EthernetDataUnit::addVlanTag(const VlanTag& tag)
+{
+    vlanTags.push_back(tag);
+    return *this;
+}
+
+EthernetDataUnit& EthernetDataUnit::removeVlanTag(const uint16_t id)
+{
+    // Move all tags with matching IDs to the back of the vector.
+    auto back = std::remove_if(vlanTags.begin(), vlanTags.end(),
+        [id](const VlanTag& tag) { return tag.getVID() == id; });
+
+    // Remove those tags.
+    vlanTags.erase(back, vlanTags.end());
+    return *this;
+}
+
+EthernetDataUnit& EthernetDataUnit::clearVlanTags()
+{
+    vlanTags.clear();
     return *this;
 }
 
