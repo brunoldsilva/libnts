@@ -18,6 +18,61 @@ enum class EtherType : uint16_t
     IPv6 = 0x86DD,
 };
 
+/// Virtual Local Area Network tag for Ethernet frames.
+class VlanTag : public nts::ProtocolDataUnit
+{
+public:
+    /// Constructor.
+    VlanTag() = default;
+
+    /// Deconstructor.
+    ~VlanTag() = default;
+
+    /// Writes the VLAN tag to the stream.
+    virtual void toStream(std::ostream& outStream) const;
+
+    /// Reads the VLAN tag from the stream.
+    /// @note Assumes that the protocol identifier was already extracted from the stream.
+    virtual void fromStream(std::istream& inStream);
+
+    /// Tagged frame protocol identifier.
+    uint16_t getProtocolIdentifier() const;
+
+    /// Composite of the PCP, DEI and VID.
+    uint16_t getControlInformation() const;
+
+    /// Priority Code Point. Assigns priority values to different classes of traffic.
+    uint8_t getPCP() const;
+
+    /// Drop Eligible Indicator. Indicates frames eligible to be dropped during congestion.
+    uint8_t getDEI() const;
+
+    /// VLAN Identifier.
+    uint16_t getVID() const;
+
+    /// Tagged frame protocol identifier.
+    VlanTag& setProtocolIdentifier(const uint16_t id);
+
+    /// Composite of the PCP, DEI and VID.
+    VlanTag& setControlInformation(const uint16_t info);
+
+    /// Priority Code Point. Assigns priority values to different classes of traffic.
+    VlanTag& setPCP(const uint8_t pcp);
+
+    /// Drop Eligible Indicator. Indicates frames eligible to be dropped during congestion.
+    VlanTag& setDEI(const uint8_t dei);
+
+    /// VLAN Identifier.
+    VlanTag& setVID(const uint16_t vid);
+
+private:
+    /// Tagged frame protocol identifier.
+    boost::endian::big_uint16_t protocolIdentifier{ (uint16_t)EtherType::VLAN };
+
+    /// Composite of the PCP, DEI and VID.
+    boost::endian::big_uint16_t controlInformation{ 0 };
+};
+
 /// Data Unit class for the Ethernet II protocol.
 class EthernetDataUnit : public nts::ProtocolDataUnit
 {

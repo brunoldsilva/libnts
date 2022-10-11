@@ -79,5 +79,58 @@ TEST(EthernetUnitTests, Session)
     ASSERT_GT(sendSize, 0);
 }
 
+TEST(VlanTagUnitTests, Accessors)
+{
+    VlanTag tag;
+    EXPECT_EQ(tag.getProtocolIdentifier(), (uint16_t)EtherType::VLAN);
+    EXPECT_EQ(tag.getControlInformation(), 0);
+    EXPECT_EQ(tag.getPCP(), 0);
+    EXPECT_EQ(tag.getDEI(), 0);
+    EXPECT_EQ(tag.getVID(), 0);
+
+    tag.setProtocolIdentifier((uint16_t)EtherType::IPv4);
+    EXPECT_EQ(tag.getProtocolIdentifier(), (uint16_t)EtherType::IPv4);
+
+    tag.setPCP(2);
+    EXPECT_EQ(tag.getPCP(), 2);
+
+    tag.setDEI(1);
+    EXPECT_EQ(tag.getDEI(), 1);
+
+    tag.setVID(0xfff);
+    EXPECT_EQ(tag.getVID(), 0xfff);
+}
+
+TEST(VlanTagUnitTests, Serialization)
+{
+    // Create a tag.
+    VlanTag tagA;
+    tagA.setProtocolIdentifier((uint16_t)EtherType::IPv4);
+    tagA.setPCP(2);
+    tagA.setDEI(1);
+    tagA.setVID(3);
+
+    // Serialize the tag.
+    boost::asio::streambuf buffer;
+    std::ostream os(&buffer);
+    os << tagA;
+
+    std::istream is(&buffer);
+    VlanTag tagB;
+
+    // Tags assume that the protocol identifier is already removed before deserializing.
+    boost::endian::big_int16_t protocolIdentifier{ 0 };
+    is.read(reinterpret_cast<char*>(&protocolIdentifier), 2);
+
+    // Deserialize the tag.
+    is >> tagB;
+
+    // Compare both tags.
+    EXPECT_EQ(tagA.getProtocolIdentifier(), protocolIdentifier);
+    EXPECT_EQ(tagA.getPCP(), tagB.getPCP());
+    EXPECT_EQ(tagA.getDEI(), tagB.getDEI());
+    EXPECT_EQ(tagA.getVID(), tagB.getVID());
+}
+
 } // namespace tests
 } // namespace eth
