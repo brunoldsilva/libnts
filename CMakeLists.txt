@@ -19,6 +19,7 @@ add_library(nts STATIC)
 add_subdirectory(source)
 add_subdirectory(include)
 add_subdirectory(tests)
+add_subdirectory(plugins)
 
 # Automatically fetch googletest.
 FetchContent_Declare(
