@@ -3,6 +3,9 @@
 # Get all source files in the current directory.
 set(SOURCES
     data_unit.cpp
+    environment.cpp
+    json_environment.cpp
+    json_environment.hpp
     raw_session.cpp
     raw_session.hpp
     serializable.cpp

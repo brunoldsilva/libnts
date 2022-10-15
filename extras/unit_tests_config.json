@@ -1,0 +1,6 @@
+{
+    "EnvironmentUnitTests": {
+        "string": "banana",
+        "integer": 42
+    }
+}

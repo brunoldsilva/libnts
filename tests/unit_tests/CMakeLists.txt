@@ -3,6 +3,7 @@
 # Get all source files in the current directory.
 set(UNIT_TEST_SRCS
     data_unit_unit_tests.cpp
+    environment_unit_tests.cpp
     session_unit_tests.cpp)
 
 # Create an executable for the tests.
@@ -16,3 +17,9 @@ target_link_libraries(nts_unit_tests GTest::gtest_main nts)
 
 # Automatically add all the tests in the source files.
 gtest_discover_tests(nts_unit_tests)
+
+# Copy the unit test environment file to the output directory.
+file(COPY ${CMAKE_SOURCE_DIR}/extras/unit_tests_config.json
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(RENAME ${CMAKE_CURRENT_BINARY_DIR}/unit_tests_config.json 
+     ${CMAKE_CURRENT_BINARY_DIR}/config.json)
