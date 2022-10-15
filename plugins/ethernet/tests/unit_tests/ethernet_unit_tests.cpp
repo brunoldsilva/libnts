@@ -90,24 +90,6 @@ TEST(EthernetUnitTests, Serialization)
     EXPECT_EQ(tags[0].getVID(), tag.getVID());
 }
 
-TEST(EthernetUnitTests, Session)
-{
-    // Create a session.
-    std::shared_ptr<nts::ss::Session> session = nts::ss::Session::create();
-    ASSERT_TRUE(session);
-
-    // Create a tag.
-    VlanTag tag = VlanTag().setVID(0);
-
-    // Create an empty Ethernet frame.
-    EthernetDataUnit frame = EthernetDataUnit().setDestinationAddress(destinationAddress).setSourceAddress(sourceAddress).addVlanTag(tag).setEtherType(etherType);
-
-    // Send the frame.
-    const std::size_t sendSize = session->send(frame);
-    std::cout << "Bytes sent: " << sendSize << std::endl;
-    ASSERT_GT(sendSize, 0);
-}
-
 TEST(VlanTagUnitTests, Accessors)
 {
     VlanTag tag;
