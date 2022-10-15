@@ -2,5 +2,12 @@
     "EnvironmentUnitTests": {
         "string": "banana",
         "integer": 42
+    },
+    "Protocols": {
+        "Ethernet": {
+            "Destination": "0:15:5d:f6:7c:15",
+            "Source": "0:15:5d:3a:ea:bd",
+            "VLAN": "4095"
+        }
     }
 }

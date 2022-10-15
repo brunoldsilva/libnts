@@ -5,7 +5,22 @@
 #include <algorithm>
 #include <netinet/ether.h>
 
+#include <environment.hpp>
+
 namespace eth {
+
+VlanTag VlanTag::create()
+{
+    VlanTag tag;
+    std::shared_ptr<nts::Environment> environment = nts::Environment::getInstance();
+    if (environment)
+    {
+        int id{ tag.getVID() };
+        environment->getParam("Protocols.Ethernet.VLAN", id);
+        tag.setVID(id);
+    }
+    return std::move(tag);
+}
 
 void VlanTag::toStream(std::ostream& outStream) const
 {
@@ -77,6 +92,23 @@ EthernetDataUnit::EthernetDataUnit()
 {
     setDestinationAddress("0:0:0:0:0:0");
     setSourceAddress("0:0:0:0:0:0");
+}
+
+EthernetDataUnit EthernetDataUnit::create()
+{
+    EthernetDataUnit frame;
+    std::shared_ptr<nts::Environment> environment = nts::Environment::getInstance();
+    if (environment)
+    {
+        std::string destination{ frame.getDestinationAddress() };
+        environment->getParam("Protocols.Ethernet.Destination", destination);
+        frame.setDestinationAddress(destination);
+
+        std::string source{ frame.getSourceAddress() };
+        environment->getParam("Protocols.Ethernet.Source", source);
+        frame.setSourceAddress(source);
+    }
+    return std::move(frame);
 }
 
 void EthernetDataUnit::toStream(std::ostream& outStream) const

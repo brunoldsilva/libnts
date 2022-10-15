@@ -28,6 +28,9 @@ public:
     /// Deconstructor.
     ~VlanTag() = default;
 
+    // Create a VLAN tag from environment parameters.
+    static VlanTag create();
+
     /// Writes the VLAN tag to the stream.
     virtual void toStream(std::ostream& outStream) const;
 
@@ -82,6 +85,9 @@ public:
 
     /// Deconstructor.
     ~EthernetDataUnit() = default;
+
+    // Create an Ethernet frame from environment parameters.
+    static EthernetDataUnit create();
 
     /// Writes the ethernet frame to the stream.
     virtual void toStream(std::ostream& outStream) const;
