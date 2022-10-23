@@ -8,6 +8,11 @@
             "Destination": "0:15:5d:f6:7c:15",
             "Source": "0:15:5d:3a:ea:bd",
             "VLAN": "4095"
+        },
+        "Ipv4": {
+            "Source": "192.168.1.1",
+            "Destination": "192.168.1.2",
+            "TTL": "64"
         }
     }
 }

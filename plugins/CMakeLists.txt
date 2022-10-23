@@ -2,3 +2,4 @@
 
 # Add plugin sub-directories.
 add_subdirectory(ethernet)
+add_subdirectory(ip)
