@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <netinet/ether.h>
+#include <sstream>
 
 #include <environment.hpp>
 
@@ -31,6 +32,13 @@ void VlanTag::toStream(std::ostream& outStream) const
 void VlanTag::fromStream(std::istream& inStream)
 {
     inStream.read(reinterpret_cast<char*>(&controlInformation), 2);
+}
+
+std::string VlanTag::toString() const
+{
+    std::stringstream stream;
+    stream << "[VLAN Tag] PCP: " << (int)getPCP() << " DEI: " << (int)getDEI() << " VID: " << getVID() << "\n";
+    return stream.str();
 }
 
 uint16_t VlanTag::getProtocolIdentifier() const
@@ -134,6 +142,28 @@ void EthernetDataUnit::fromStream(std::istream& inStream)
         addVlanTag(tag);
         inStream.read(reinterpret_cast<char*>(&etherTypeOrLength), 2);
     }
+}
+
+std::string EthernetDataUnit::toString() const
+{
+    std::stringstream stream;
+    stream << "[Ethernet]\n\tDestination: " << getDestinationAddress() << "\n\tSource: " << getSourceAddress() << "\n\t";
+    if (getLength() <= 1500)
+    {
+        stream << "Length: 0x";
+    }
+    else
+    {
+        stream << "EtherType: 0x";
+    }
+    stream << std::hex << getLength() << std::dec << "\n";
+    std::vector<VlanTag> tags;
+    getVlanTags(tags);
+    for (const auto& tag : tags)
+    {
+        stream << tag.toString();
+    }
+    return stream.str();
 }
 
 std::string EthernetDataUnit::getDestinationAddress() const

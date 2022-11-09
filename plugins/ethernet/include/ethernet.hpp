@@ -38,6 +38,9 @@ public:
     /// @note Assumes that the protocol identifier was already extracted from the stream.
     virtual void fromStream(std::istream& inStream);
 
+    /// Representation of the VLAN tag in a console friendly format.
+    virtual std::string toString() const;
+
     /// Tagged frame protocol identifier.
     uint16_t getProtocolIdentifier() const;
 
@@ -95,6 +98,9 @@ public:
     /// Reads the ethernet frame from the stream.
     virtual void fromStream(std::istream& inStream);
 
+    /// Representation of the ethernet frame in a console friendly format.
+    virtual std::string toString() const;
+
     /// Destination MAC address.
     std::string getDestinationAddress() const;
 
@@ -132,9 +138,9 @@ public:
     EthernetDataUnit& setLength(const uint16_t length);
 
 private:
-    std::vector<boost::endian::big_uint8_t> destinationAddress{ 6, 0 };
+    std::vector<boost::endian::big_uint8_t> destinationAddress{ 0, 0, 0, 0, 0, 0 };
 
-    std::vector<boost::endian::big_uint8_t> sourceAddress{ 6, 0 };
+    std::vector<boost::endian::big_uint8_t> sourceAddress{ 0, 0, 0, 0, 0, 0 };
 
     std::vector<VlanTag> vlanTags;
 

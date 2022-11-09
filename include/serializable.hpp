@@ -24,6 +24,13 @@ public:
     /// Reads the object from the stream.
     virtual void fromStream(std::istream& inStream) = 0;
 
+    /// Representation of the object in a console friendly format.
+    virtual std::string toString() const
+    {
+        // @todo: make pure virtual and implement in every protocol data unit.
+        return "";
+    };
+
     /// Writes the object to the stream.
     friend std::ostream& operator<<(std::ostream& outStream, const Serializable& other);
 

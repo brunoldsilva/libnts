@@ -79,15 +79,15 @@ TEST(EthernetUnitTests, Serialization)
     is >> frameB;
 
     // Compare both frames.
-    EXPECT_EQ(frameA.getDestinationAddress(), frameB.getDestinationAddress());
-    EXPECT_EQ(frameA.getSourceAddress(), frameB.getSourceAddress());
-    EXPECT_EQ(frameA.getEtherType(), frameB.getEtherType());
+    EXPECT_EQ(frameA.getDestinationAddress(), destinationAddress);
+    EXPECT_EQ(frameA.getSourceAddress(), sourceAddress);
+    EXPECT_EQ(frameA.getEtherType(), etherType);
 
     // And their tags.
     std::vector<VlanTag> tags;
     frameB.getVlanTags(tags);
     ASSERT_GT(tags.size(), 0);
-    EXPECT_EQ(tags[0].getVID(), tag.getVID());
+    EXPECT_EQ(tags[0].getVID(), 0xfff);
 }
 
 TEST(VlanTagUnitTests, Accessors)
