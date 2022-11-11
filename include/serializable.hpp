@@ -6,7 +6,6 @@
 #include <istream>
 
 namespace nts {
-namespace srl {
 
 /// Object that can be written and read from data streams.
 class Serializable
@@ -25,11 +24,7 @@ public:
     virtual void fromStream(std::istream& inStream) = 0;
 
     /// Representation of the object in a console friendly format.
-    virtual std::string toString() const
-    {
-        // @todo: make pure virtual and implement in every protocol data unit.
-        return "";
-    };
+    virtual std::string toString() const = 0;
 
     /// Writes the object to the stream.
     friend std::ostream& operator<<(std::ostream& outStream, const Serializable& other);
@@ -38,5 +33,4 @@ public:
     friend std::istream& operator>>(std::istream& inStream, Serializable& other);
 };
 
-} // namespace srl
 } // namespace nts

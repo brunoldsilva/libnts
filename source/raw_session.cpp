@@ -31,7 +31,7 @@ std::size_t RawSession::send(std::vector<uint8_t>& inData)
     return bytes;
 }
 
-std::size_t RawSession::send(srl::Serializable& inData)
+std::size_t RawSession::send(Serializable& inData)
 {
     // The buffer will hold the data to send.
     boost::asio::streambuf buffer;
@@ -52,7 +52,7 @@ std::size_t RawSession::receive(std::vector<uint8_t>& outData)
     return bytes;
 }
 
-std::size_t RawSession::receive(srl::Serializable& outData)
+std::size_t RawSession::receive(Serializable& outData)
 {
     // The buffer will hold the data.
     boost::asio::streambuf buffer;

@@ -3,6 +3,7 @@
 #include <icmp.hpp>
 
 #include <arpa/inet.h>
+#include <sstream>
 
 namespace icmp {
 
@@ -25,6 +26,17 @@ void IcmpDataUnit::fromStream(std::istream& inStream)
     inStream.read(reinterpret_cast<char*>(&code), 1);
     inStream.read(reinterpret_cast<char*>(&checksum), 2);
     inStream.read(reinterpret_cast<char*>(&restOfHeader), 4);
+}
+
+std::string IcmpDataUnit::toString() const
+{
+    std::stringstream stream;
+    stream << "[ICMP]"
+           << "\n\tType: " << (int)getType()
+           << "\n\tCode: " << (int)getCode()
+           << "\n\tChecksum: 0x" << std::hex << getChecksum() << std::dec
+           << "\n";
+    return stream.str();
 }
 
 void IcmpDataUnit::computeChecksum()

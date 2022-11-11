@@ -34,6 +34,9 @@ public:
     /// Reads the packet from the stream.
     virtual void fromStream(std::istream& inStream);
 
+    /// Representation of the packet in a console friendly format.
+    virtual std::string toString() const;
+
     /// Update the checksum field with the correct checksum.
     void computeChecksum();
 

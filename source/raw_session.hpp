@@ -26,14 +26,14 @@ public:
     virtual std::size_t send(std::vector<uint8_t>& inData);
 
     /// Send object to the network.
-    virtual std::size_t send(srl::Serializable& inData);
+    virtual std::size_t send(Serializable& inData);
 
     /// Receive data from the network.
     /// @param outData Must be non-empty (size > 0).
     virtual std::size_t receive(std::vector<uint8_t>& outData);
 
     /// Receive object from the network.
-    virtual std::size_t receive(srl::Serializable& outData);
+    virtual std::size_t receive(Serializable& outData);
 
 private:
     /// Manages asynchronous send and receive operations.

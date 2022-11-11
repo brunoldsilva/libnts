@@ -3,6 +3,7 @@
 #include <ipv4.hpp>
 
 #include <arpa/inet.h>
+#include <sstream>
 
 #include <environment.hpp>
 
@@ -63,6 +64,24 @@ void Ipv4DataUnit::fromStream(std::istream& inStream)
     inStream.read(reinterpret_cast<char*>(&checksum), 2);
     inStream.read(reinterpret_cast<char*>(&sourceAddress), 4);
     inStream.read(reinterpret_cast<char*>(&destinationAddress), 4);
+}
+
+std::string Ipv4DataUnit::toString() const
+{
+    std::stringstream stream;
+    stream << "[IPv4]\n"
+           << "\tVersion: " << (int)getVersion() << " IHL: " << (int)getIHL()
+           << "\n\tDSCP: " << (int)getDSCP() << " ECN: " << (int)getECN()
+           << "\n\tTotal Length: " << getTotalLength()
+           << "\n\tIdentification: " << getIdentification()
+           << "\n\tFlags: " << (int)getFlags() << " Offset: " << (int)getFragmentOffset()
+           << "\n\tTTL: " << (int)getTTL()
+           << "\n\tProtocol: 0x" << std::hex << (int)getProtocol()
+           << "\n\tChecksum: 0x" << getHeaderChecksum() << std::dec
+           << "\n\tSource Address: " << getSourceAddress()
+           << "\n\tDestination Address: " << getDestinationAddress()
+           << "\n";
+    return stream.str();
 }
 
 void Ipv4DataUnit::computeChecksum()

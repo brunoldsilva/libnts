@@ -37,7 +37,8 @@ void VlanTag::fromStream(std::istream& inStream)
 std::string VlanTag::toString() const
 {
     std::stringstream stream;
-    stream << "[VLAN Tag] PCP: " << (int)getPCP() << " DEI: " << (int)getDEI() << " VID: " << getVID() << "\n";
+    stream << "[VLAN Tag]\n\t"
+           << "PCP: " << (int)getPCP() << " DEI: " << (int)getDEI() << " VID: " << getVID() << "\n";
     return stream.str();
 }
 
@@ -147,16 +148,11 @@ void EthernetDataUnit::fromStream(std::istream& inStream)
 std::string EthernetDataUnit::toString() const
 {
     std::stringstream stream;
-    stream << "[Ethernet]\n\tDestination: " << getDestinationAddress() << "\n\tSource: " << getSourceAddress() << "\n\t";
-    if (getLength() <= 1500)
-    {
-        stream << "Length: 0x";
-    }
-    else
-    {
-        stream << "EtherType: 0x";
-    }
-    stream << std::hex << getLength() << std::dec << "\n";
+    stream << "[Ethernet]"
+           << "\n\tDestination: " << getDestinationAddress()
+           << "\n\tSource: " << getSourceAddress() << "\n\t"
+           << (getLength() <= 1500 ? "Length: 0x" : "EtherType: 0x")
+           << std::hex << getLength() << std::dec << "\n";
     std::vector<VlanTag> tags;
     getVlanTags(tags);
     for (const auto& tag : tags)

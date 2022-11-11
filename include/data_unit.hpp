@@ -9,7 +9,7 @@
 namespace nts {
 
 /// Base class for Protocol Data Units that can be sent over the network.
-class ProtocolDataUnit : public srl::Serializable
+class ProtocolDataUnit : public Serializable
 {
 public:
     /// Constructor.
@@ -23,6 +23,9 @@ public:
 
     /// Reads the object from the stream.
     virtual void fromStream(std::istream& inStream) = 0;
+
+    /// Representation of the object in a console friendly format.
+    virtual std::string toString() const = 0;
 };
 
 /// Holds generic data in a byte array.
@@ -40,6 +43,9 @@ public:
 
     /// Reads the object from the stream.
     virtual void fromStream(std::istream& inStream);
+
+    /// Representation of the object in a console friendly format.
+    virtual std::string toString() const;
 
     /// Data stored in this unit.
     std::vector<uint8_t>& getData();

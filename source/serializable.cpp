@@ -3,7 +3,6 @@
 #include <serializable.hpp>
 
 namespace nts {
-namespace srl {
 
 std::ostream& operator<<(std::ostream& outStream, const Serializable& other)
 {
@@ -17,5 +16,4 @@ std::istream& operator>>(std::istream& inStream, Serializable& other)
     return inStream;
 };
 
-} // namespace srl
 } // namespace nts
