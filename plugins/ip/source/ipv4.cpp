@@ -84,6 +84,11 @@ std::string Ipv4DataUnit::toString() const
     return stream.str();
 }
 
+std::string Ipv4DataUnit::getProtocolTag() const
+{
+    return "ipv4";
+}
+
 void Ipv4DataUnit::computeChecksum()
 {
     uint16_t sum = getHeaderSum();

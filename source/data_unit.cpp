@@ -42,6 +42,11 @@ std::string GenericDataUnit::toString() const
     return stream.str();
 }
 
+std::string GenericDataUnit::getProtocolTag() const
+{
+    return "generic";
+}
+
 std::vector<uint8_t>& GenericDataUnit::getData()
 {
     return data;

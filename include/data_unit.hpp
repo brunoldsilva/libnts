@@ -26,6 +26,9 @@ public:
 
     /// Representation of the object in a console friendly format.
     virtual std::string toString() const = 0;
+
+    /// Unique tag that represents this protocol.
+    virtual std::string getProtocolTag() const = 0;
 };
 
 /// Holds generic data in a byte array.
@@ -46,6 +49,9 @@ public:
 
     /// Representation of the object in a console friendly format.
     virtual std::string toString() const;
+
+    /// Unique tag that represents this protocol.
+    virtual std::string getProtocolTag() const;
 
     /// Data stored in this unit.
     std::vector<uint8_t>& getData();

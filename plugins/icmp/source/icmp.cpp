@@ -39,6 +39,11 @@ std::string IcmpDataUnit::toString() const
     return stream.str();
 }
 
+std::string IcmpDataUnit::getProtocolTag() const
+{
+    return "icmp";
+}
+
 void IcmpDataUnit::computeChecksum()
 {
     // @todo: The checksum requires access to the payload.

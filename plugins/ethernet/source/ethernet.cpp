@@ -42,6 +42,11 @@ std::string VlanTag::toString() const
     return stream.str();
 }
 
+std::string VlanTag::getProtocolTag() const
+{
+    return "vlan";
+}
+
 uint16_t VlanTag::getProtocolIdentifier() const
 {
     return protocolIdentifier;
@@ -160,6 +165,11 @@ std::string EthernetDataUnit::toString() const
         stream << tag.toString();
     }
     return stream.str();
+}
+
+std::string EthernetDataUnit::getProtocolTag() const
+{
+    return (vlanTags.size() == 0) ? "ethernet" : "ethernet.vlan";
 }
 
 std::string EthernetDataUnit::getDestinationAddress() const

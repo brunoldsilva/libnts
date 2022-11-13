@@ -41,6 +41,9 @@ public:
     /// Representation of the VLAN tag in a console friendly format.
     virtual std::string toString() const;
 
+    /// Unique tag that represents this protocol.
+    virtual std::string getProtocolTag() const;
+
     /// Tagged frame protocol identifier.
     uint16_t getProtocolIdentifier() const;
 
@@ -97,6 +100,9 @@ public:
 
     /// Reads the ethernet frame from the stream.
     virtual void fromStream(std::istream& inStream);
+
+    /// Unique tag that represents this protocol.
+    virtual std::string getProtocolTag() const;
 
     /// Representation of the ethernet frame in a console friendly format.
     virtual std::string toString() const;

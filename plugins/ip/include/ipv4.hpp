@@ -37,6 +37,9 @@ public:
     /// Representation of the packet in a console friendly format.
     virtual std::string toString() const;
 
+    /// Unique tag that represents this protocol.
+    virtual std::string getProtocolTag() const;
+
     /// Update the checksum field with the correct checksum.
     void computeChecksum();
 
