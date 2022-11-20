@@ -6,6 +6,7 @@ set(SOURCES
     environment.cpp
     json_environment.cpp
     json_environment.hpp
+    message.cpp
     raw_session.cpp
     raw_session.hpp
     serializable.cpp

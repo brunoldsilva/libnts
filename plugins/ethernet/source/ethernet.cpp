@@ -174,7 +174,7 @@ std::string EthernetDataUnit::toString() const
 
 std::string EthernetDataUnit::getProtocolTag() const
 {
-    return (vlanTags.size() == 0) ? "ethernet" : "ethernet vlan";
+    return "ethernet";
 }
 
 std::size_t EthernetDataUnit::getUnitSize() const
