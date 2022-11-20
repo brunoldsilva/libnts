@@ -44,6 +44,11 @@ std::string IcmpDataUnit::getProtocolTag() const
     return "icmp";
 }
 
+std::size_t IcmpDataUnit::getUnitSize() const
+{
+    return 8;
+}
+
 void IcmpDataUnit::computeChecksum()
 {
     // @todo: The checksum requires access to the payload.

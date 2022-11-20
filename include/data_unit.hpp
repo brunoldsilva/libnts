@@ -29,6 +29,9 @@ public:
 
     /// Unique tag that represents this protocol.
     virtual std::string getProtocolTag() const = 0;
+
+    /// Size of the data unit in bytes.
+    virtual std::size_t getUnitSize() const = 0;
 };
 
 /// Holds generic data in a byte array.
@@ -52,6 +55,9 @@ public:
 
     /// Unique tag that represents this protocol.
     virtual std::string getProtocolTag() const;
+
+    /// Size of the data unit in bytes.
+    virtual std::size_t getUnitSize() const;
 
     /// Data stored in this unit.
     std::vector<uint8_t>& getData();

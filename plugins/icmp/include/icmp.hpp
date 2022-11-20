@@ -107,6 +107,9 @@ public:
     /// Unique tag that represents this protocol.
     virtual std::string getProtocolTag() const;
 
+    /// Size of the data unit in bytes.
+    virtual std::size_t getUnitSize() const;
+
     /// Update the checksum field with the correct checksum.
     void computeChecksum();
 

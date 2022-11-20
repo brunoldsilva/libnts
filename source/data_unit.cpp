@@ -47,6 +47,11 @@ std::string GenericDataUnit::getProtocolTag() const
     return "generic";
 }
 
+std::size_t GenericDataUnit::getUnitSize() const
+{
+    return data.size();
+}
+
 std::vector<uint8_t>& GenericDataUnit::getData()
 {
     return data;

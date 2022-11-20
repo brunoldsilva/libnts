@@ -47,6 +47,11 @@ std::string VlanTag::getProtocolTag() const
     return "vlan";
 }
 
+std::size_t VlanTag::getUnitSize() const
+{
+    return 4;
+}
+
 uint16_t VlanTag::getProtocolIdentifier() const
 {
     return protocolIdentifier;
@@ -169,7 +174,21 @@ std::string EthernetDataUnit::toString() const
 
 std::string EthernetDataUnit::getProtocolTag() const
 {
-    return (vlanTags.size() == 0) ? "ethernet" : "ethernet.vlan";
+    return (vlanTags.size() == 0) ? "ethernet" : "ethernet vlan";
+}
+
+std::size_t EthernetDataUnit::getUnitSize() const
+{
+    // Two 6-byte addresses plus a 2-byte EtherType/Length field.
+    const std::size_t headerSize = 6 + 6 + 2;
+
+    // Include the VLAN tags in the total size.
+    std::size_t totalSize = headerSize;
+    for (const auto& tag : vlanTags)
+    {
+        totalSize += tag.getUnitSize();
+    }
+    return totalSize;
 }
 
 std::string EthernetDataUnit::getDestinationAddress() const

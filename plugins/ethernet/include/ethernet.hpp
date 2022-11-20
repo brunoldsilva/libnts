@@ -44,6 +44,9 @@ public:
     /// Unique tag that represents this protocol.
     virtual std::string getProtocolTag() const;
 
+    /// Size of the data unit in bytes.
+    virtual std::size_t getUnitSize() const;
+
     /// Tagged frame protocol identifier.
     uint16_t getProtocolIdentifier() const;
 
@@ -103,6 +106,9 @@ public:
 
     /// Unique tag that represents this protocol.
     virtual std::string getProtocolTag() const;
+
+    /// Size of the data unit in bytes.
+    virtual std::size_t getUnitSize() const;
 
     /// Representation of the ethernet frame in a console friendly format.
     virtual std::string toString() const;
