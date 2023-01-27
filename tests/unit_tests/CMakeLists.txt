@@ -1,10 +1,11 @@
-# Copyright Bruno Silva, 2022. All rights reserved.
+# Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 # Get all source files in the current directory.
 set(UNIT_TEST_SRCS
     data_unit_unit_tests.cpp
     environment_unit_tests.cpp
     message_unit_tests.cpp
+    parser_unit_tests.cpp
     session_unit_tests.cpp)
 
 # Create an executable for the tests.

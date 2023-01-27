@@ -1,9 +1,11 @@
-/// Copyright Bruno Silva, 2022. All rights reserved.
+/// Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 #include <message.hpp>
 
 #include <algorithm>
 #include <sstream>
+
+#include <parser.hpp>
 
 namespace nts {
 
@@ -17,9 +19,10 @@ void Message::toStream(std::ostream& outStream) const
 
 void Message::fromStream(std::istream& inStream)
 {
-    for (auto unit : dataUnits)
+    if (std::shared_ptr<MessageParser> parser = MessageParser::getInstance())
     {
-        unit->fromStream(inStream);
+        std::map<std::string, int> context;
+        parser->parse(inStream, context, dataUnits);
     }
 }
 

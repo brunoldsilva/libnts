@@ -1,4 +1,4 @@
-# Copyright Bruno Silva, 2022. All rights reserved.
+# Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 # Get all source files in the current directory.
 set(SOURCES
@@ -7,6 +7,7 @@ set(SOURCES
     json_environment.cpp
     json_environment.hpp
     message.cpp
+    parser.cpp
     raw_session.cpp
     raw_session.hpp
     serializable.cpp
