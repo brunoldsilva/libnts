@@ -39,8 +39,9 @@ An Ethernet frame can have up to two VLAN tags and they are placed between the S
 
 ## Implementation
 
-| Class             | Description                                       |
-|------             |------------                                       |
-| EthernetDataUnit  | Ethernet protocol as a serializable data unit.    |
-| EtherType         | Enumeration of the most common payload protocols. |
-| VlanTag           | IEEE 802.1Q Virtual LAN tag.                      |
+| Class            | Description                                       |
+| ---------------- | ------------------------------------------------- |
+| EthernetDataUnit | Ethernet protocol as a serializable data unit.    |
+| EtherType        | Enumeration of the most common payload protocols. |
+| VlanTag          | IEEE 802.1Q Virtual LAN tag.                      |
+| EthernetParser   | Extracts ethernet frames from streams.            |

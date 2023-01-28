@@ -1,10 +1,11 @@
-/// Copyright Bruno Silva, 2022. All rights reserved.
+/// Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 #pragma once
 
 #include <boost/endian/arithmetic.hpp>
 
 #include <data_unit.hpp>
+#include <parser.hpp>
 
 namespace eth {
 
@@ -25,7 +26,7 @@ public:
     /// Constructor.
     VlanTag() = default;
 
-    /// Deconstructor.
+    /// Destructor.
     ~VlanTag() = default;
 
     // Create a VLAN tag from environment parameters.
@@ -92,7 +93,7 @@ public:
     /// Constructor.
     EthernetDataUnit();
 
-    /// Deconstructor.
+    /// Destructor.
     ~EthernetDataUnit() = default;
 
     // Create an Ethernet frame from environment parameters.
@@ -157,6 +158,23 @@ private:
     std::vector<VlanTag> vlanTags;
 
     boost::endian::big_uint16_t etherTypeOrLength{ 0 };
+};
+
+/// Parser for the Ethernet protocol.
+class EthernetParser : public nts::ProtocolParser
+{
+public:
+    /// Constructor.
+    EthernetParser() = default;
+
+    /// Destructor.
+    ~EthernetParser() = default;
+
+    /// Whether it's the first protocol in the stream.
+    virtual bool canParse(const std::map<std::string, int>& inContext) const;
+
+    /// Parse an ethernet frame from the stream.
+    virtual std::shared_ptr<nts::ProtocolDataUnit> parse(std::istream& inStream, std::map<std::string, int>& outContext) const;
 };
 
 } // namespace eth

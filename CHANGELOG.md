@@ -8,3 +8,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Added base class for protocol and message parsers.
+- Added Ethernet protocol parser.
+- Fixed VLAN Tag attribute setters.

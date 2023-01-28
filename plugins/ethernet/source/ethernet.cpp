@@ -1,4 +1,4 @@
-/// Copyright Bruno Silva, 2022. All rights reserved.
+/// Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 #include <ethernet.hpp>
 
@@ -91,13 +91,13 @@ VlanTag& VlanTag::setControlInformation(const uint16_t info)
 
 VlanTag& VlanTag::setPCP(const uint8_t pcp)
 {
-    controlInformation = (controlInformation & 0x01FF) | (pcp << 13);
+    controlInformation = (controlInformation & 0x1FFF) | (pcp << 13);
     return *this;
 }
 
 VlanTag& VlanTag::setDEI(const uint8_t dei)
 {
-    controlInformation = (controlInformation & 0x0EFF) | (dei << 12);
+    controlInformation = (controlInformation & 0xEFFF) | (dei << 12);
     return *this;
 }
 
@@ -269,6 +269,25 @@ EthernetDataUnit& EthernetDataUnit::setLength(const uint16_t length)
 {
     etherTypeOrLength = length;
     return *this;
+}
+
+bool EthernetParser::canParse(const std::map<std::string, int>& inContext) const
+{
+    return inContext.empty();
+}
+
+std::shared_ptr<nts::ProtocolDataUnit> EthernetParser::parse(std::istream& inStream, std::map<std::string, int>& outContext) const
+{
+    // Deserialize a frame from the stream.
+    std::shared_ptr<EthernetDataUnit> frame = std::make_shared<EthernetDataUnit>();
+    frame->fromStream(inStream);
+
+    // Update the context.
+    outContext.clear();
+    outContext["ethernet"] = 1;
+    outContext["type"] = static_cast<int>(frame->getEtherType());
+
+    return std::move(frame);
 }
 
 } // namespace eth

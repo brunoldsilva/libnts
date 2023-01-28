@@ -14,7 +14,7 @@ std::shared_ptr<MessageParser> MessageParser::getInstance()
 
 void MessageParser::parse(std::istream& inStream, std::map<std::string, int>& inContext, std::vector<std::shared_ptr<ProtocolDataUnit>>& outMessage) const
 {
-    while (inStream.good())
+    while (inStream.good() && inStream.peek() >= 0)
     {
         // Look for an appropriate parser for the given context.
         const auto it = std::find_if(parsers.begin(), parsers.end(),

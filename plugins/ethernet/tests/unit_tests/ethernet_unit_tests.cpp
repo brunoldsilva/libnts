@@ -1,8 +1,8 @@
-/// Copyright Bruno Silva, 2022. All rights reserved.
+/// Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 #include <boost/asio.hpp>
-#include <iostream>
 #include <gtest/gtest.h>
+#include <iostream>
 
 #include <ethernet.hpp>
 #include <session.hpp>
@@ -118,6 +118,9 @@ TEST(VlanTagUnitTests, Serialization)
     VlanTag tagA;
     tagA.setProtocolIdentifier((uint16_t)EtherType::IPv4).setPCP(2).setDEI(1).setVID(3);
 
+    std::cout << "Tag A:\n"
+              << tagA.toString() << std::endl;
+
     // Serialize the tag.
     boost::asio::streambuf buffer;
     std::ostream os(&buffer);
@@ -133,11 +136,52 @@ TEST(VlanTagUnitTests, Serialization)
     // Deserialize the tag.
     is >> tagB;
 
+    std::cout << "Tag B:\n"
+              << tagB.toString() << std::endl;
+
     // Compare both tags.
-    EXPECT_EQ(tagA.getProtocolIdentifier(), protocolIdentifier);
-    EXPECT_EQ(tagA.getPCP(), tagB.getPCP());
-    EXPECT_EQ(tagA.getDEI(), tagB.getDEI());
-    EXPECT_EQ(tagA.getVID(), tagB.getVID());
+    EXPECT_EQ(protocolIdentifier, (uint16_t)EtherType::IPv4);
+    EXPECT_EQ(tagB.getProtocolIdentifier(), (uint16_t)EtherType::VLAN);
+    EXPECT_EQ(tagB.getPCP(), 2);
+    EXPECT_EQ(tagB.getDEI(), 1);
+    EXPECT_EQ(tagB.getVID(), 3);
+}
+
+TEST(EthernetParserUnitTests, CanParse)
+{
+    EthernetParser parser = EthernetParser();
+
+    std::map<std::string, int> context;
+    ASSERT_TRUE(parser.canParse(context));
+
+    context["ethernet"] = 1;
+    context["type"] = 0x0800;
+    ASSERT_FALSE(parser.canParse(context));
+}
+
+TEST(EthernetParserUnitTests, Parse)
+{
+    EthernetDataUnit frameA = EthernetDataUnit::create().setLength(0x01);
+    EthernetDataUnit frameB = EthernetDataUnit::create().setLength(0x02);
+
+    boost::asio::streambuf buffer;
+    std::ostream os(&buffer);
+    std::istream is(&buffer);
+    os << frameA;
+    os << frameB;
+
+    EthernetParser parser = EthernetParser();
+    std::map<std::string, int> context;
+
+    auto frameC = std::dynamic_pointer_cast<EthernetDataUnit>(parser.parse(is, context));
+    ASSERT_TRUE(frameC);
+    ASSERT_EQ(frameC->getLength(), 0x01);
+    ASSERT_EQ(context.at("ethernet"), 1);
+
+    auto frameD = std::dynamic_pointer_cast<EthernetDataUnit>(parser.parse(is, context));
+    ASSERT_TRUE(frameD);
+    ASSERT_EQ(frameD->getLength(), 0x02);
+    ASSERT_EQ(context.at("ethernet"), 1);
 }
 
 } // namespace tests
