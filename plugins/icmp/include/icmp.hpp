@@ -1,10 +1,11 @@
-/// Copyright Bruno Silva, 2022. All rights reserved.
+/// Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 #pragma once
 
 #include <boost/endian/arithmetic.hpp>
 
 #include <data_unit.hpp>
+#include <parser.hpp>
 
 namespace icmp {
 
@@ -89,7 +90,7 @@ public:
     /// Constructor.
     IcmpDataUnit() = default;
 
-    /// Deconstructor.
+    /// Destructor.
     ~IcmpDataUnit() = default;
 
     /// Create an ICMP packet from environment parameters.
@@ -166,6 +167,23 @@ private:
     boost::endian::big_uint16_t checksum{ 0 };
 
     boost::endian::big_uint32_t restOfHeader{ 0 };
+};
+
+/// Parser for the ICMP protocol.
+class IcmpParser : public nts::ProtocolParser
+{
+public:
+    /// Constructor.
+    IcmpParser() = default;
+
+    /// Destructor.
+    ~IcmpParser() = default;
+
+    /// Whether the previous protocol is IPv4 and IPv4.Protocol is ICMP.
+    virtual bool canParse(const std::map<std::string, int>& inContext) const;
+
+    /// Parse an ICMP payload from the stream.
+    virtual std::shared_ptr<nts::ProtocolDataUnit> parse(std::istream& inStream, std::map<std::string, int>& outContext) const;
 };
 
 } // namespace icmp

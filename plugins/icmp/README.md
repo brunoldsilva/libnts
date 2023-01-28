@@ -34,8 +34,9 @@ The echo message is used to test the connectivity between two hosts. Upon receiv
 
 ## Implementation
 
-| Class             | Description                        |
-|------             |------------                        |
-| IcmpDataUnit      | ICMP as a serializable data unit.  |
-| IcmpMessageType   | Enumeration of ICMP message types. |
-| IcmpMessageCode_* | Enumeration of ICMP message codes. |
+| Class               | Description                        |
+| ------------------- | ---------------------------------- |
+| IcmpDataUnit        | ICMP as a serializable data unit.  |
+| IcmpMessageType     | Enumeration of ICMP message types. |
+| IcmpMessageCode\_\* | Enumeration of ICMP message codes. |
+| IcmpParser          | Extracts ICMP payload from steams. |

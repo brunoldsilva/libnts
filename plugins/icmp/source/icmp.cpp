@@ -1,4 +1,4 @@
-/// Copyright Bruno Silva, 2022. All rights reserved.
+/// Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 #include <icmp.hpp>
 
@@ -137,6 +137,28 @@ IcmpDataUnit& IcmpDataUnit::setNextHopMtu(const uint16_t mtu)
 {
     restOfHeader = (restOfHeader & 0xFFFF0000) | (mtu);
     return *this;
+}
+
+bool IcmpParser::canParse(const std::map<std::string, int>& inContext) const
+{
+    if (inContext.find("ipv4") != inContext.end())
+    {
+        return inContext.at("protocol") == 0x01;
+    }
+    return false;
+}
+
+std::shared_ptr<nts::ProtocolDataUnit> IcmpParser::parse(std::istream& inStream, std::map<std::string, int>& outContext) const
+{
+    std::shared_ptr<IcmpDataUnit> payload = std::make_shared<IcmpDataUnit>();
+    payload->fromStream(inStream);
+
+    outContext.clear();
+    outContext["icmp"] = 1;
+    outContext["code"] = static_cast<int>(payload->getCode());
+    outContext["type"] = static_cast<int>(payload->getType());
+
+    return std::move(payload);
 }
 
 } // namespace icmp

@@ -1,4 +1,4 @@
-/// Copyright Bruno Silva, 2022. All rights reserved.
+/// Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 #include <boost/asio.hpp>
 #include <gtest/gtest.h>
@@ -60,6 +60,48 @@ TEST(IcmpUnitTests, Serialization)
 }
 
 /// @todo: Add unit tests for the checksum.
+
+TEST(IcmpParserUnitTests, CanParse)
+{
+    IcmpParser parser = IcmpParser();
+
+    std::map<std::string, int> context;
+    ASSERT_FALSE(parser.canParse(context));
+
+    context["ipv4"] = 1;
+    context["protocol"] = 0x01;
+    ASSERT_TRUE(parser.canParse(context));
+}
+
+TEST(IcmpParserUnitTests, Parse)
+{
+    IcmpDataUnit payloadA = IcmpDataUnit::create().setIdentifier(0x01);
+    IcmpDataUnit payloadB = IcmpDataUnit::create().setIdentifier(0x02);
+
+    boost::asio::streambuf buffer;
+    std::ostream os(&buffer);
+    std::istream is(&buffer);
+    os << payloadA;
+    os << payloadB;
+
+    IcmpParser parser = IcmpParser();
+    std::map<std::string, int> context;
+
+    context["ipv4"] = 1;
+    context["protocol"] = 0x01;
+    auto payloadC = std::dynamic_pointer_cast<IcmpDataUnit>(parser.parse(is, context));
+    ASSERT_TRUE(payloadC);
+    ASSERT_EQ(payloadC->getIdentifier(), 0x01);
+    ASSERT_EQ(context.at("icmp"), 1);
+
+    context.clear();
+    context["ipv4"] = 1;
+    context["protocol"] = 0x01;
+    auto payloadD = std::dynamic_pointer_cast<IcmpDataUnit>(parser.parse(is, context));
+    ASSERT_TRUE(payloadD);
+    ASSERT_EQ(payloadD->getIdentifier(), 0x02);
+    ASSERT_EQ(context.at("icmp"), 1);
+}
 
 } // namespace tests
 } // namespace icmp
