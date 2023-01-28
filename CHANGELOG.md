@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Added base class for protocol and message parsers.
-- Added Ethernet protocol parser.
-- Fixed VLAN Tag attribute setters.
-- Added IPv4 protocol parser.
-- Added ICMP protocol parser.
+## [0.1.0] - 2023-01-28
+
+### Added
+
+- Base class for protocol and message parsers.
+- Ethernet protocol parser.
+- IPv4 protocol parser.
+- ICMP protocol parser.
+
+### Changed
+
 - Disabled session unit tests.
+
+### Fixed
+
+- VLAN Tag attribute setters.
