@@ -12,3 +12,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed VLAN Tag attribute setters.
 - Added IPv4 protocol parser.
 - Added ICMP protocol parser.
+- Disabled session unit tests.
