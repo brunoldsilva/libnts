@@ -1,8 +1,9 @@
-/// Copyright Bruno Silva, 2022. All rights reserved.
+/// Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 #include <boost/endian/arithmetic.hpp>
 
 #include <data_unit.hpp>
+#include <parser.hpp>
 
 namespace ip {
 
@@ -22,7 +23,7 @@ public:
     /// Constructor.
     Ipv4DataUnit();
 
-    /// Deconstructor.
+    /// Destructor.
     ~Ipv4DataUnit() = default;
 
     // Create an IPv4 packet from environment parameters.
@@ -155,6 +156,23 @@ private:
     boost::endian::big_uint32_t sourceAddress{ 0 };
 
     boost::endian::big_uint32_t destinationAddress{ 0 };
+};
+
+/// Parser for the IPv4 protocol.
+class Ipv4Parser : public nts::ProtocolParser
+{
+public:
+    /// Constructor.
+    Ipv4Parser() = default;
+
+    /// Destructor.
+    ~Ipv4Parser() = default;
+
+    /// Whether the previous protocol is Ethernet and the EtherType is IPv4.
+    virtual bool canParse(const std::map<std::string, int>& inContext) const;
+
+    /// Parse an IPv4 packet from the stream.
+    virtual std::shared_ptr<nts::ProtocolDataUnit> parse(std::istream& inStream, std::map<std::string, int>& outContext) const;
 };
 
 } // namespace ip

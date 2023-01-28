@@ -21,7 +21,7 @@ An IPv4 packet is an internet-layer protocol data unit. Its structure is as foll
     |                                Options                                |
     +-----------------+-----------------+-----------------+-----------------+
 
-Version and IHL (1 byte): The Version is a 4-bit field that identifies the packet as IPv4 or IPv6. The 4-bit Internet Header Length (IHL) contains the number of 32-bit words in the header including options. 
+Version and IHL (1 byte): The Version is a 4-bit field that identifies the packet as IPv4 or IPv6. The 4-bit Internet Header Length (IHL) contains the number of 32-bit words in the header including options.
 
 DSCP and ECN (1 byte): The Differentiated Services Code Point (DSCP) is a 6-bit field that is used to specify differentiated services per RFC 2474. The 2-bit Explicit Congestion Notification (ECN) allows end-to-end notification of network congestion without dropping packets.
 
@@ -44,9 +44,10 @@ Destination Address (4 bytes): This field is the IPv4 address of the receiver of
 ## Implementation
 
 | Class              | Description                                       |
-|------              |------------                                       |
+| ------------------ | ------------------------------------------------- |
 | Ipv4DataUnit       | Internet Protocol as a serializable data unit.    |
 | IpPayloadProtocols | Enumeration of the most common payload protocols. |
+| Ipv4Parser         | Extracts IPv4 packets from streams.               |
 
 ## Examples
 

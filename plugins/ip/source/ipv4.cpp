@@ -1,4 +1,4 @@
-/// Copyright Bruno Silva, 2022. All rights reserved.
+/// Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 #include <ipv4.hpp>
 
@@ -269,6 +269,27 @@ uint16_t Ipv4DataUnit::getHeaderSum() const
     }
 
     return static_cast<uint16_t>(sum);
+}
+
+bool Ipv4Parser::canParse(const std::map<std::string, int>& inContext) const
+{
+    if (inContext.find("ethernet") != inContext.end())
+    {
+        return inContext.at("type") == 0x0800;
+    }
+    return false;
+}
+
+std::shared_ptr<nts::ProtocolDataUnit> Ipv4Parser::parse(std::istream& inStream, std::map<std::string, int>& outContext) const
+{
+    std::shared_ptr<Ipv4DataUnit> packet = std::make_shared<Ipv4DataUnit>();
+    packet->fromStream(inStream);
+
+    outContext.clear();
+    outContext["ipv4"] = 1;
+    outContext["protocol"] = static_cast<int>(packet->getProtocol());
+
+    return std::move(packet);
 }
 
 } // namespace ip

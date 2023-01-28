@@ -1,4 +1,4 @@
-/// Copyright Bruno Silva, 2022. All rights reserved.
+/// Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 #include <boost/asio.hpp>
 #include <iostream>
@@ -79,6 +79,48 @@ TEST(Ipv4UnitTests, Checksum)
     EXPECT_FALSE(packet.isChecksumValid());
     packet.computeChecksum();
     EXPECT_TRUE(packet.isChecksumValid());
+}
+
+TEST(Ipv4ParserUnitTests, CanParse)
+{
+    Ipv4Parser parser = Ipv4Parser();
+
+    std::map<std::string, int> context;
+    ASSERT_FALSE(parser.canParse(context));
+
+    context["ethernet"] = 1;
+    context["type"] = 0x0800;
+    ASSERT_TRUE(parser.canParse(context));
+}
+
+TEST(Ipv4ParserUnitTests, Parse)
+{
+    Ipv4DataUnit packetA = Ipv4DataUnit::create().setIdentification(0x01);
+    Ipv4DataUnit packetB = Ipv4DataUnit::create().setIdentification(0x02);
+
+    boost::asio::streambuf buffer;
+    std::ostream os(&buffer);
+    std::istream is(&buffer);
+    os << packetA;
+    os << packetB;
+
+    Ipv4Parser parser = Ipv4Parser();
+    std::map<std::string, int> context;
+
+    context["ethernet"] = 1;
+    context["type"] = 0x0800;
+    auto packetC = std::dynamic_pointer_cast<Ipv4DataUnit>(parser.parse(is, context));
+    ASSERT_TRUE(packetC);
+    ASSERT_EQ(packetC->getIdentification(), 0x01);
+    ASSERT_EQ(context.at("ipv4"), 1);
+
+    context.clear();
+    context["ethernet"] = 1;
+    context["type"] = 0x0800;
+    auto packetD = std::dynamic_pointer_cast<Ipv4DataUnit>(parser.parse(is, context));
+    ASSERT_TRUE(packetD);
+    ASSERT_EQ(packetD->getIdentification(), 0x02);
+    ASSERT_EQ(context.at("ipv4"), 1);
 }
 
 } // namespace tests
