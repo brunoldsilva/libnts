@@ -1,4 +1,4 @@
-# Copyright Bruno Silva, 2022. All rights reserved.
+# Copyright Bruno Silva, 2022-2023. All rights reserved.
 
 cmake_minimum_required(VERSION 3.1...3.24)
 
@@ -10,16 +10,15 @@ set(CMAKE_CXX_STANDARD 14)
 # Includes.
 include(FetchContent)
 include(GoogleTest)
+include(cmake/UnitTestForEach.cmake)
 
 # Enable testing of the project.
 enable_testing()
 
 # Configure the Network Testing Suite library.
-add_library(nts STATIC)
-add_subdirectory(source)
-add_subdirectory(include)
-add_subdirectory(tests)
-add_subdirectory(plugins)
+add_library(nts SHARED)
+target_include_directories(nts PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_subdirectory(libnts)
 
 # Automatically fetch googletest.
 FetchContent_Declare(
@@ -35,3 +34,9 @@ if(Boost_FOUND)
   include_directories($(Boost_INCLUDE_DIRS))
   target_link_libraries(nts ${Boost_LIBRARIES})
 endif()
+
+install(TARGETS nts)
+install(DIRECTORY libnts/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libnts
+        FILES_MATCHING
+        PATTERN *.hpp)
