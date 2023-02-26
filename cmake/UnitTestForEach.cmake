@@ -1,4 +1,4 @@
-# Copyright Bruno Silva, 2023. All rights reserved.
+# Copyright (C) 2022-2023 Bruno Silva - All Rights Reserved.
 
 function(unit_test_foreach)
     # Create an unit test for each module.

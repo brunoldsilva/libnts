@@ -1,4 +1,4 @@
-# Copyright Bruno Silva, 2022-2023. All rights reserved.
+# Copyright (C) 2022-2023 Bruno Silva - All Rights Reserved.
 
 # Get all source files in the current directory.
 set(SOURCES
