@@ -15,6 +15,9 @@ include(cmake/UnitTestForEach.cmake)
 # Enable testing of the project.
 enable_testing()
 
+# This flag is required to build fmt into a shared library.
+set(CMAKE_POSITION_INDEPENDENT_CODE true)
+
 # Configure the Network Testing Suite library.
 add_library(nts SHARED)
 target_include_directories(nts PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -27,6 +30,17 @@ FetchContent_Declare(
   GIT_TAG release-1.12.1
 )
 FetchContent_MakeAvailable(googletest)
+
+# Fetch the fmt library.
+FetchContent_Declare(
+  fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+  GIT_TAG 9.1.0
+)
+FetchContent_MakeAvailable(fmt)
+
+# Link to the fmt library.
+target_link_libraries(nts fmt::fmt)
 
 # Find the Boost librry.
 find_package(Boost 1.71.0 REQUIRED COMPONENTS system)

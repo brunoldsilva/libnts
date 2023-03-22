@@ -1,5 +1,6 @@
 /// Copyright (C) 2023 Bruno Silva - All Rights Reserved.
 
+#include <algorithm>
 #include <gtest/gtest.h>
 
 #include <libnts/logging/logger_manager.hpp>
