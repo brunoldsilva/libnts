@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
 
 - LICENSE.md with copyright notice.
+- Interface for logger objects to handle log messages.
+- Global LoggerManager object to handle multiple loggers.
+- StandardLogger class that writes logs to the standard output.
+- Build dependency to the [fmt](https://github.com/fmtlib/fmt) library.
+- Convenience macros for writing logs.
 
 ## Changed
 
