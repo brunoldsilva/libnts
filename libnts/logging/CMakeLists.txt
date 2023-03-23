@@ -14,6 +14,7 @@ target_sources(nts PRIVATE ${SOURCES})
 
 # Get all test files in the current directory.
 set(UNIT_TEST_SRCS
+    log.test.cpp
     logger_manager.test.cpp
     standard_logger.test.cpp)
 
