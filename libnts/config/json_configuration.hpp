@@ -13,8 +13,7 @@ namespace nts {
 ///
 /// @details This class implements the Configuration interface for getting configuration
 /// parameters of different types from JSON files. The constructor takes the filename of
-/// the JSON file to use. Each getter method takes a unique key string that identifies the
-/// parameter to retrieve. Nested parameters can be accessed by concatenating multiple
+/// the JSON file to use. Nested parameters can be accessed by concatenating multiple
 /// keys together, with periods in-between.
 ///
 /// @example
@@ -40,7 +39,7 @@ public:
     ///
     /// @example
     /// bool alive = config->getBool("people.alice.lives").value_or(false);
-    virtual boost::optional<bool> getBool(const std::string& key) const;
+    virtual boost::optional<bool> getBool(const std::string& key) const override;
 
     /// @brief Get the parameter with the given key, if it exists.
     ///
@@ -49,7 +48,7 @@ public:
     ///
     /// @example
     /// std::int32_t age = config->getInt("people.alice.age").value_or(1);
-    virtual boost::optional<std::int32_t> getInt(const std::string& key) const;
+    virtual boost::optional<std::int32_t> getInt(const std::string& key) const override;
 
     /// @brief Get the parameter with the given key, if it exists.
     ///
@@ -58,7 +57,7 @@ public:
     ///
     /// @example
     /// string name = config->getString("people.alice.name").value_or("Alice");
-    virtual boost::optional<std::string> getString(const std::string& key) const;
+    virtual boost::optional<std::string> getString(const std::string& key) const override;
 
 private:
     /// Enables easy access to the contents of the configuration file.

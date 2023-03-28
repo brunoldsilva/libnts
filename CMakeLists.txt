@@ -49,8 +49,12 @@ if(Boost_FOUND)
   target_link_libraries(nts ${Boost_LIBRARIES})
 endif()
 
+# Install the Network Testing Suite binaries.
 install(TARGETS nts)
+
+# Install the Network Testing Suite headers.
 install(DIRECTORY libnts/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libnts
         FILES_MATCHING
-        PATTERN *.hpp)
+        PATTERN *.hpp
+        PATTERN *.test.hpp EXCLUDE)

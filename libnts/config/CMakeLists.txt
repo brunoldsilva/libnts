@@ -5,6 +5,7 @@ target_include_directories(nts PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Get all source files in the current directory.
 set(SOURCES
+    composite_configuration.cpp
     environment.cpp
     json_configuration.cpp
     json_environment.cpp)
@@ -14,6 +15,7 @@ target_sources(nts PRIVATE ${SOURCES})
 
 # Get all test files in the current directory.
 set(UNIT_TEST_SRCS
+    composite_configuration.test.cpp
     environment.test.cpp
     json_configuration.test.cpp)
 
