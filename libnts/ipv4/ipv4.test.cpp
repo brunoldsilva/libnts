@@ -95,8 +95,8 @@ TEST(Ipv4ParserUnitTests, CanParse)
 
 TEST(Ipv4ParserUnitTests, Parse)
 {
-    Ipv4DataUnit packetA = Ipv4DataUnit::create().setIdentification(0x01);
-    Ipv4DataUnit packetB = Ipv4DataUnit::create().setIdentification(0x02);
+    Ipv4DataUnit packetA = Ipv4DataUnit().setIdentification(0x01);
+    Ipv4DataUnit packetB = Ipv4DataUnit().setIdentification(0x02);
 
     boost::asio::streambuf buffer;
     std::ostream os(&buffer);

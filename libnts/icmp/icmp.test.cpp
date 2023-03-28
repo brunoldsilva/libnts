@@ -75,8 +75,8 @@ TEST(IcmpParserUnitTests, CanParse)
 
 TEST(IcmpParserUnitTests, Parse)
 {
-    IcmpDataUnit payloadA = IcmpDataUnit::create().setIdentifier(0x01);
-    IcmpDataUnit payloadB = IcmpDataUnit::create().setIdentifier(0x02);
+    IcmpDataUnit payloadA = IcmpDataUnit().setIdentifier(0x01);
+    IcmpDataUnit payloadB = IcmpDataUnit().setIdentifier(0x02);
 
     boost::asio::streambuf buffer;
     std::ostream os(&buffer);

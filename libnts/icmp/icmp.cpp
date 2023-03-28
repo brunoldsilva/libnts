@@ -5,11 +5,13 @@
 #include <arpa/inet.h>
 #include <sstream>
 
+#include <libnts/config/configuration.hpp>
+
 namespace icmp {
 
-IcmpDataUnit IcmpDataUnit::create()
+IcmpDataUnit& IcmpDataUnit::configure(std::shared_ptr<nts::Configuration> config)
 {
-    return IcmpDataUnit();
+    return *this;
 }
 
 void IcmpDataUnit::toStream(std::ostream& outStream) const

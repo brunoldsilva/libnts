@@ -161,8 +161,8 @@ TEST(EthernetParserUnitTests, CanParse)
 
 TEST(EthernetParserUnitTests, Parse)
 {
-    EthernetDataUnit frameA = EthernetDataUnit::create().setLength(0x01);
-    EthernetDataUnit frameB = EthernetDataUnit::create().setLength(0x02);
+    EthernetDataUnit frameA = EthernetDataUnit().setLength(0x01);
+    EthernetDataUnit frameB = EthernetDataUnit().setLength(0x02);
 
     boost::asio::streambuf buffer;
     std::ostream os(&buffer);

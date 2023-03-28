@@ -5,6 +5,13 @@
 #include <libnts/core/data_unit.hpp>
 #include <libnts/messaging/parser.hpp>
 
+namespace nts {
+
+// Forward declaration.
+class Configuration;
+
+} // namespace nts
+
 namespace ip {
 
 /// Identifier of the encapsulated protocol.
@@ -26,8 +33,8 @@ public:
     /// Destructor.
     ~Ipv4DataUnit() = default;
 
-    // Create an IPv4 packet from environment parameters.
-    static Ipv4DataUnit create();
+    /// Configure the packet with data from the Configuration object.
+    Ipv4DataUnit& configure(std::shared_ptr<nts::Configuration> config);
 
     /// Writes the packet to the stream.
     virtual void toStream(std::ostream& outStream) const;

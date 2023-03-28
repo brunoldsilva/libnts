@@ -6,21 +6,17 @@
 #include <netinet/ether.h>
 #include <sstream>
 
-#include <libnts/config/environment.hpp>
+#include <libnts/config/configuration.hpp>
 
 namespace eth {
 
-VlanTag VlanTag::create()
+VlanTag& VlanTag::configure(std::shared_ptr<nts::Configuration> config)
 {
-    VlanTag tag;
-    std::shared_ptr<nts::Environment> environment = nts::Environment::getInstance();
-    if (environment)
+    if (auto id = config->getInt("Protocols.Ethernet.VLAN"))
     {
-        int id{ tag.getVID() };
-        environment->getParam("Protocols.Ethernet.VLAN", id);
-        tag.setVID(id);
+        setVID(id.value());
     }
-    return std::move(tag);
+    return *this;
 }
 
 void VlanTag::toStream(std::ostream& outStream) const
@@ -113,21 +109,17 @@ EthernetDataUnit::EthernetDataUnit()
     setSourceAddress("0:0:0:0:0:0");
 }
 
-EthernetDataUnit EthernetDataUnit::create()
+EthernetDataUnit& EthernetDataUnit::configure(std::shared_ptr<nts::Configuration> config)
 {
-    EthernetDataUnit frame;
-    std::shared_ptr<nts::Environment> environment = nts::Environment::getInstance();
-    if (environment)
+    if (auto destination = config->getString("Protocols.Ethernet.Destination"))
     {
-        std::string destination{ frame.getDestinationAddress() };
-        environment->getParam("Protocols.Ethernet.Destination", destination);
-        frame.setDestinationAddress(destination);
-
-        std::string source{ frame.getSourceAddress() };
-        environment->getParam("Protocols.Ethernet.Source", source);
-        frame.setSourceAddress(source);
+        setDestinationAddress(destination.value());
     }
-    return std::move(frame);
+    if (auto source = config->getString("Protocols.Ethernet.Source"))
+    {
+        setSourceAddress(source.value());
+    }
+    return *this;
 }
 
 void EthernetDataUnit::toStream(std::ostream& outStream) const

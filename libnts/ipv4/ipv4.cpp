@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 #include <sstream>
 
-#include <libnts/config/environment.hpp>
+#include <libnts/config/configuration.hpp>
 
 namespace ip {
 
@@ -16,26 +16,22 @@ Ipv4DataUnit::Ipv4DataUnit()
     computeChecksum();
 }
 
-Ipv4DataUnit Ipv4DataUnit::create()
+Ipv4DataUnit& Ipv4DataUnit::configure(std::shared_ptr<nts::Configuration> config)
 {
-    Ipv4DataUnit packet;
-    if (std::shared_ptr<nts::Environment> environment = nts::Environment::getInstance())
+    if (auto source = config->getString("Protocols.Ipv4.Source"))
     {
-        std::string source{ packet.getSourceAddress() };
-        environment->getParam("Protocols.Ipv4.Source", source);
-        packet.setSourceAddress(source);
-
-        std::string destination{ packet.getDestinationAddress() };
-        environment->getParam("Protocols.Ipv4.Destination", destination);
-        packet.setDestinationAddress(destination);
-
-        int TimeToLive{ packet.getTTL() };
-        environment->getParam("Protocols.Ipv4.TTL", TimeToLive);
-        packet.setTTL(TimeToLive);
-
-        packet.computeChecksum();
+        setSourceAddress(source.value());
     }
-    return std::move(packet);
+    if (auto dest = config->getString("Protocols.Ipv4.Destination"))
+    {
+        setDestinationAddress(dest.value());
+    }
+    if (auto ttl = config->getInt("Protocols.Ipv4.TTL"))
+    {
+        setTTL(ttl.value());
+    }
+    computeChecksum();
+    return *this;
 }
 
 void Ipv4DataUnit::toStream(std::ostream& outStream) const

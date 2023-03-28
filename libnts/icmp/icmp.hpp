@@ -7,6 +7,13 @@
 #include <libnts/core/data_unit.hpp>
 #include <libnts/messaging/parser.hpp>
 
+namespace nts {
+
+// Forward declaration.
+class Configuration;
+
+} // namespace nts
+
 namespace icmp {
 
 /// Control message types.
@@ -93,8 +100,8 @@ public:
     /// Destructor.
     ~IcmpDataUnit() = default;
 
-    /// Create an ICMP packet from environment parameters.
-    static IcmpDataUnit create();
+    /// Configure the packet with data from the Configuration object.
+    IcmpDataUnit& configure(std::shared_ptr<nts::Configuration> config);
 
     /// Writes the packet to the stream.
     virtual void toStream(std::ostream& outStream) const;

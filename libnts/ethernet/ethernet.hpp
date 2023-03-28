@@ -7,6 +7,13 @@
 #include <libnts/core/data_unit.hpp>
 #include <libnts/messaging/parser.hpp>
 
+namespace nts {
+
+// Forward declaration.
+class Configuration;
+
+} // namespace nts
+
 namespace eth {
 
 /// Identifies the protocol of the payload.
@@ -29,8 +36,8 @@ public:
     /// Destructor.
     ~VlanTag() = default;
 
-    // Create a VLAN tag from environment parameters.
-    static VlanTag create();
+    /// Configure the tag with data from the Configuration object.
+    VlanTag& configure(std::shared_ptr<nts::Configuration> config);
 
     /// Writes the VLAN tag to the stream.
     virtual void toStream(std::ostream& outStream) const;
@@ -96,8 +103,8 @@ public:
     /// Destructor.
     ~EthernetDataUnit() = default;
 
-    // Create an Ethernet frame from environment parameters.
-    static EthernetDataUnit create();
+    /// Configure the frame with data from the Configuration object.
+    EthernetDataUnit& configure(std::shared_ptr<nts::Configuration> config);
 
     /// Writes the ethernet frame to the stream.
     virtual void toStream(std::ostream& outStream) const;

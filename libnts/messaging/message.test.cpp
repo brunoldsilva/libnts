@@ -16,14 +16,17 @@ namespace tests {
 TEST(MessageUnitTests, DataUnits)
 {
     // Create the necessary data units to form an ICMP echo request message.
-    auto frame = std::make_shared<eth::EthernetDataUnit>(eth::EthernetDataUnit::create().setEtherType((uint16_t)eth::EtherType::IPv4));
+    auto frame = std::make_shared<eth::EthernetDataUnit>();
+    frame->setEtherType((uint16_t)eth::EtherType::IPv4);
 
-    auto tag = eth::VlanTag::create();
+    auto tag = eth::VlanTag();
     frame->addVlanTag(tag);
 
-    auto packet = std::make_shared<ip::Ipv4DataUnit>(ip::Ipv4DataUnit::create().setProtocol((uint8_t)ip::IpPayloadProtocols::ICMP).setTotalLength(38));
+    auto packet = std::make_shared<ip::Ipv4DataUnit>();
+    packet->setProtocol((uint8_t)ip::IpPayloadProtocols::ICMP).setTotalLength(38);
 
-    auto message = std::make_shared<icmp::IcmpDataUnit>(icmp::IcmpDataUnit::create().setType((uint8_t)icmp::IcmpMessageType::EchoRequest).setCode((uint8_t)icmp::IcmpMessageCode::EchoRequest));
+    auto message = std::make_shared<icmp::IcmpDataUnit>();
+    message->setType((uint8_t)icmp::IcmpMessageType::EchoRequest).setCode((uint8_t)icmp::IcmpMessageCode::EchoRequest);
 
     auto payload = std::make_shared<GenericDataUnit>(GenericDataUnit().setData({ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }));
 
