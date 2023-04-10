@@ -3,6 +3,7 @@
 # Get all source files in the current directory.
 set(SOURCES
     data_unit.cpp
+    operation.cpp
     serializable.cpp
     session.cpp)
 
