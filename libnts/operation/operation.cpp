@@ -1,6 +1,6 @@
 /// Copyright (C) 2023 Bruno Silva - All Rights Reserved.
 
-#include <libnts/core/operation.hpp>
+#include <libnts/operation/operation.hpp>
 
 namespace nts {
 

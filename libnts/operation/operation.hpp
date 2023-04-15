@@ -24,9 +24,9 @@ enum class ExecutionMethod
 /// @brief An abstract class that provides methods for running a task and specifying how it
 /// should be executed in relation to other tasks.
 ///
-/// @details Concrete implementations need to override the 'run' method with their 
-/// implementation and update the operation state as the task is executed. The execution method 
-/// property provides a way of organizing groups of tasks that require complex sequencing in 
+/// @details Concrete implementations need to override the 'run' method with their
+/// implementation and update the operation state as the task is executed. The execution method
+/// property provides a way of organizing groups of tasks that require complex sequencing in
 /// their order of execution.
 class Operation
 {

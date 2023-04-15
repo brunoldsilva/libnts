@@ -6,7 +6,7 @@
 #include <string>
 #include <thread>
 
-#include <libnts/core/operation.hpp>
+#include <libnts/operation/operation.hpp>
 
 namespace nts {
 namespace tests {
