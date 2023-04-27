@@ -39,11 +39,9 @@ public:
     /// @brief Simulate running the operation for a specific duration.
     ///
     /// @return Whether the run was successful.
-    virtual bool run() override
+    virtual bool execute(const std::size_t) override
     {
-        setState(OperationState::Running);
         std::this_thread::sleep_for(duration);
-        setState(succeed ? OperationState::Done : OperationState::Failed);
         return succeed;
     };
 
@@ -52,6 +50,18 @@ public:
 
     /// Whether the operation should succeed.
     bool succeed{ true };
+};
+
+/// @brief Checks how long an operation takes to run.
+///
+/// @param operation The operation to check.
+/// @return How long the operation took to run, in milliseconds.
+static std::chrono::milliseconds timeOperation(const std::shared_ptr<Operation> operation)
+{
+    auto start = std::chrono::high_resolution_clock::now();
+    operation->run();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::high_resolution_clock::now() - start);
 };
 
 } // namespace tests

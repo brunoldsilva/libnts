@@ -8,7 +8,8 @@ set(SOURCES
 target_sources(nts PRIVATE ${SOURCES})
 
 # Get all test files in the current directory.
-set(UNIT_TEST_SRCS)
+set(UNIT_TEST_SRCS
+    operation.test.cpp)
 
 # Create an unit test for each module.
 unit_test_foreach(${UNIT_TEST_SRCS})
