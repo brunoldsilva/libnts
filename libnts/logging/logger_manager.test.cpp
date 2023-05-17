@@ -30,10 +30,10 @@ TEST(LoggerManagerUnitTests, Accessors)
     auto manager = std::make_shared<LoggerManager>();
     ASSERT_TRUE(manager);
 
-    // The manager shouldn't have any loggers yet.
+    // The manager should only have the default logger.
     std::vector<std::shared_ptr<Logger>> loggers;
     manager->getLoggers(loggers);
-    EXPECT_EQ(loggers.size(), 0);
+    EXPECT_EQ(loggers.size(), 1);
 
     // Create a test logger.
     auto logger = std::make_shared<logger_manager::TestLogger>();
@@ -42,9 +42,9 @@ TEST(LoggerManagerUnitTests, Accessors)
     // Add the logger to the manager.
     manager->addLogger(logger);
 
-    // The manager should have one logger.
+    // The manager should have two loggers.
     manager->getLoggers(loggers);
-    EXPECT_EQ(loggers.size(), 1);
+    EXPECT_EQ(loggers.size(), 2);
 
     // The logger should match the added logger.
     auto result = std::find_if(loggers.begin(), loggers.end(), [logger](const std::shared_ptr<Logger> other) {

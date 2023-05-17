@@ -13,22 +13,22 @@ std::string severityToString(const LogSeverity severity)
     switch (severity)
     {
         case LogSeverity::Trace:
-            return "Trace";
+            return "TRACE";
             break;
         case LogSeverity::Debug:
-            return "Debug";
+            return "DEBUG";
             break;
         case LogSeverity::Info:
-            return "Info";
+            return "INFO";
             break;
         case LogSeverity::Warning:
-            return "Warning";
+            return "WARNING";
             break;
         case LogSeverity::Error:
-            return "Error";
+            return "ERROR";
             break;
         case LogSeverity::Fatal:
-            return "Fatal";
+            return "FATAL";
             break;
         default:
             return "NotImplemented";

@@ -2,9 +2,10 @@
 
 #pragma once
 
-#include <memory>
-#include <vector>
 #include <chrono>
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace nts {
 
@@ -61,10 +62,10 @@ private:
     LogSeverity severity{ LogSeverity::Info };
 
     /// Category of the message.
-    std::string category{ "" };
+    std::string category;
 
     /// The user provided message to be written to the log.
-    std::string message{ "" };
+    std::string message;
 
     /// Time when the message was created.
     std::chrono::steady_clock::time_point timestamp;

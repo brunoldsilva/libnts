@@ -6,6 +6,7 @@ target_include_directories(nts PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # Get all source files in the current directory.
 set(SOURCES
     message.cpp
+    messenger.cpp
     parser.cpp)
 
 # Add sources to the Network Testing Suite library.
@@ -14,6 +15,7 @@ target_sources(nts PRIVATE ${SOURCES})
 # Get all test files in the current directory.
 set(UNIT_TEST_SRCS
     message.test.cpp
+    messenger.test.cpp
     parser.test.cpp)
 
 # Create an unit test for each module.

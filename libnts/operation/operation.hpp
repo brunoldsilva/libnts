@@ -101,7 +101,7 @@ public:
 
     /// @brief Set how long the operation can take to run successfully.
     ///
-    /// @param timeout Time in ms after which the run will fail.
+    /// @param timeout Time in ms after which the run will always fail.
     void setTimeout(const std::chrono::milliseconds& timeout);
 
 protected:
@@ -134,7 +134,7 @@ private:
     /// @brief Time in ms to wait before each execution of the operation.
     std::chrono::milliseconds interval{ 0 };
 
-    /// @brief Time in ms after which the run will fail.
+    /// @brief Time in ms after which the run will always fail.
     std::chrono::milliseconds timeout{ 0 };
 };
 

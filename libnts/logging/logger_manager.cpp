@@ -2,7 +2,15 @@
 
 #include <libnts/logging/logger_manager.hpp>
 
+#include <libnts/logging/standard_logger.hpp>
+
 namespace nts {
+
+LoggerManager::LoggerManager()
+{
+    auto defaultLogger = std::make_shared<StandardLogger>();
+    addLogger(defaultLogger);
+}
 
 std::shared_ptr<LoggerManager> LoggerManager::getInstance()
 {

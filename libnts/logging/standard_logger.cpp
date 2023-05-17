@@ -25,14 +25,14 @@ std::string StandardLogger::getLogPrefix(const LogMessage& message) const
 
     long ms = duration_cast<milliseconds>(message.getTimestamp().time_since_epoch()).count() % (1000);
 
-    std::string timeLiteral = fmt::format("{:%Y-%m-%d %H:%M:%S}.{}", *localTime, ms);
+    std::string timeLiteral = fmt::format("{:%Y-%m-%d %H:%M:%S}.{:0>3}", *localTime, ms);
 
     std::string category{ "" };
     message.getCategory(category);
 
     std::string severity = severityToString(message.getSeverity());
 
-    return fmt::format("[{}] {}: ({}) ", timeLiteral, category, severity);
+    return fmt::format("{} {:^7} {}: ", timeLiteral, severity, category);
 }
 
 std::string StandardLogger::getLogSuffix(const LogMessage& message) const

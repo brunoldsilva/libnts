@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include <libnts/core/serializable.hpp>
+#include <libnts/serialization/serializable.hpp>
 
 namespace nts {
 

@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include <libnts/ethernet/ethernet.hpp>
-#include <libnts/core/session.hpp>
+#include <libnts/serialization/serial.hpp>
 
 namespace eth {
 namespace tests {

@@ -5,7 +5,7 @@
 #include <memory>
 
 #include <libnts/core/data_unit.hpp>
-#include <libnts/core/serializable.hpp>
+#include <libnts/serialization/serializable.hpp>
 
 namespace nts {
 
@@ -55,5 +55,8 @@ public:
 private:
     std::vector<std::shared_ptr<ProtocolDataUnit>> dataUnits;
 };
+
+/// @brief A collection of messages.
+using Messages = std::vector<std::shared_ptr<Message>>;
 
 } // namespace nts

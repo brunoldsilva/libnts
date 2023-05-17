@@ -11,7 +11,7 @@ class LoggerManager : public Logger
 {
 public:
     /// Constructor.
-    LoggerManager() = default;
+    LoggerManager();
 
     /// Destructor.
     ~LoggerManager() = default;

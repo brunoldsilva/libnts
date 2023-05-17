@@ -5,7 +5,7 @@
 
 #include <libnts/messaging/message.hpp>
 
-#include <libnts/core/session.hpp>
+#include <libnts/serialization/serial.hpp>
 #include <libnts/ethernet/ethernet.hpp>
 #include <libnts/icmp/icmp.hpp>
 #include <libnts/ipv4/ipv4.hpp>

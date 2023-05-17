@@ -45,7 +45,7 @@ target_link_libraries(nts fmt::fmt)
 # Find the Boost librry.
 find_package(Boost 1.71.0 REQUIRED COMPONENTS system)
 if(Boost_FOUND)
-  include_directories($(Boost_INCLUDE_DIRS))
+  include_directories(${Boost_INCLUDE_DIRS})
   target_link_libraries(nts ${Boost_LIBRARIES})
 endif()
 
