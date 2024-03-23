@@ -1,5 +1,3 @@
-# Copyright (C) 2022-2023 Bruno Silva - All Rights Reserved.
-
 # Add the current directory to the include path for the Network Testing Suite library.
 target_include_directories(nts PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

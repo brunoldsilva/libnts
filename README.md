@@ -1,15 +1,33 @@
 # Network Testing Suite
 
-The Network Testing Suite (NTS) is a tool designed to test the network implementation of a piece of software. It allows the developer to write comprehensive tests to validate the requirements of the program from the outside and to account for unusual cases.
+Tool for testing network communication protocols, written in C++.
 
-The main features that the NTS provides to the tester are:
+## Overview
 
-- Several communication protocols to communicate with the program, including UDP, TCP and ICMP.
+Writing network code is complicated. This library aims to improve the situation by enabling the development of tests to check whether a network communication protocol is correctly implemented.
 
-- Extensible testing framework setup that implements the most common test cases in order to write accessible tests, simple or extensive, and accommodate additional needs. These include:
+The main features offered by this library include:
 
-  - Message builders that simplify the tedious process of creating complex messages in just a few steps;
+- Support for multiple communication protocols (UDP, TCP, IPv4, Ethernet).
+- Linear test construction and flow (no callback hell).
+- Batteries included configuration and logging.
 
-  - Messengers that allow the developer to specify patterns for communicating with the program and avoid endless callback chains;
+*Disclaimer: This project is still highly experimental, and makes no guarantees of correctly supporting these features, at this time.*
 
-  - Sessions that handle the communication between endpoints and manage the messages sent and received during each test.
+## Getting Started
+
+Work In Progress
+
+## Usage
+
+Work In Progress
+
+## License
+
+This project is licensed under either the [Apache-2.0 License](http://www.apache.org/licenses/LICENSE-2.0) or [MIT License](http://opensource.org/licenses/MIT), at your option.
+
+## Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in
+the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any
+additional terms or conditions.

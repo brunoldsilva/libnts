@@ -1,5 +1,3 @@
-# Copyright (C) 2022-2023 Bruno Silva - All Rights Reserved.
-
 function(unit_test_foreach)
     # Create an unit test for each module.
     foreach(TEST IN LISTS ARGV)

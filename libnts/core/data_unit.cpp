@@ -1,5 +1,3 @@
-/// Copyright Bruno Silva. 2022-2023. All rights reserved.
-
 #include <libnts/core/data_unit.hpp>
 
 #include <boost/asio.hpp>

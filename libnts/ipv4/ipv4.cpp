@@ -1,5 +1,3 @@
-/// Copyright (C) 2022-2023 Bruno Silva - All Rights Reserved.
-
 #include <libnts/ipv4/ipv4.hpp>
 
 #include <arpa/inet.h>

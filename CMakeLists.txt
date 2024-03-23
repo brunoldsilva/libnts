@@ -1,5 +1,3 @@
-# Copyright (C) 2022-2023 Bruno Silva - All Rights Reserved.
-
 cmake_minimum_required(VERSION 3.1...3.24)
 
 project(NetworkTestingSuite VERSION 0.0.0)

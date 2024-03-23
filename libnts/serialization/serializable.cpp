@@ -1,5 +1,3 @@
-/// Copyright (C) 2022-2023 Bruno Silva - All Rights Reserved.
-
 #include <libnts/serialization/serializable.hpp>
 
 namespace nts {

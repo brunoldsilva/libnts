@@ -1,5 +1,3 @@
-/// Copyright (C) 2023 Bruno Silva - All Rights Reserved.
-
 #include <json_configuration.hpp>
 
 #include <boost/property_tree/json_parser.hpp>

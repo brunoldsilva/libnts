@@ -1,5 +1,3 @@
-/// Copyright (C) 2023 Bruno Silva - All Rights Reserved.
-
 #include <libnts/config/composite_configuration.hpp>
 
 #include <algorithm>
