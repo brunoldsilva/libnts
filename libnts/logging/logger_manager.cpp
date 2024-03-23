@@ -1,5 +1,3 @@
-/// Copyright (C) 2023 Bruno Silva - All Rights Reserved.
-
 #include <libnts/logging/logger_manager.hpp>
 
 namespace nts {

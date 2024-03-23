@@ -1,5 +1,3 @@
-/// Copyright (C) 2022-2023 Bruno Silva - All Rights Reserved.
-
 #include <libnts/icmp/icmp.hpp>
 
 #include <arpa/inet.h>
